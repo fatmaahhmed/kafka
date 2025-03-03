@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kafka WebSocket Test</title>
+</head>
+<body>
+    <input type="text" id="messageInput" placeholder="Enter message">
+    <button onclick="sendMessage()">Send Message</button>
+    <div id="output"></div>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:8080');
+        const output = document.getElementById('output');
+
+        ws.onopen = () => {
+            console.log('Connected to WebSocket server');
+        };
+
+        ws.onmessage = (event) => {
+            const response = JSON.parse(event.data);
+            output.innerHTML += `<p>${JSON.stringify(response)}</p>`;
+        };
+
+        function sendMessage() {
+            const message = document.getElementById('messageInput').value;
+            ws.send(JSON.stringify({ text: message }));
+        }
+    </script>
+</body>
+</html>

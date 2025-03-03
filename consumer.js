@@ -1,30 +1,48 @@
+// consumer.js
 const { Kafka } = require("kafkajs");
-const express = require("express");
+const WebSocket = require("ws");
 const http = require("http");
-const { Server } = require("socket.io");
 
 const kafka = new Kafka({ clientId: "test-app", brokers: ["localhost:9092"] });
-const consumer = kafka.consumer({ groupId: "test-group" });
+const producer = kafka.producer();
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: { origin: "*" }, // السماح لجميع الدومينات
-});
+const startServer = async () => {
+  await producer.connect();
+  console.log("Kafka Producer connected");
 
-const run = async () => {
-  await consumer.connect();
-  await consumer.subscribe({ topic: "notifications", fromBeginning: true });
+  const server = http.createServer();
+  const wss = new WebSocket.Server({ server });
 
-  await consumer.run({
-    eachMessage: async ({ message }) => {
-      const notification = message.value.toString();
-      console.log(`📩 New Notification: ${notification}`);
-      io.emit("notification", notification);
-    },
+  wss.on("connection", (ws) => {
+    console.log("Client connected");
+
+    ws.on("message", async (data) => {
+      try {
+        const message = JSON.parse(data);
+        await producer.send({
+          topic: "notifications",
+          messages: [{ value: JSON.stringify(message) }],
+        });
+        console.log("Message sent:", message);
+
+        ws.send(
+          JSON.stringify({
+            status: "success",
+            message: "Message sent to Kafka",
+          })
+        );
+      } catch (error) {
+        console.error("Error:", error);
+        ws.send(JSON.stringify({ status: "error", message: error.message }));
+      }
+    });
+
+    ws.on("close", () => console.log("Client disconnected"));
   });
+
+  server.listen(8081, () =>
+    console.log("WebSocket server is running on port 8081")
+  );
 };
 
-run().catch(console.error);
-
-server.listen(4000, () => console.log("🚀 WebSockets Server on port 4000"));
+startServer();

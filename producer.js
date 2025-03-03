@@ -1,20 +1,28 @@
+// producer.js
 const { Kafka } = require("kafkajs");
 
 const kafka = new Kafka({ clientId: "test-app", brokers: ["localhost:9092"] });
 const producer = kafka.producer();
 
-const sendMessage = async () => {
+const runProducer = async () => {
   await producer.connect();
-  await producer.send({
-    topic: "notifications",
-    messages: [
-      { value: "Hello KafkaJS user!" },
-      { value: "Hello again!" },
-      { value: "Hello for the third time!" },
-    ],
+
+  setInterval(async () => {
+    await producer.send({
+      topic: "notifications",
+      messages: [
+        { value: `Hello KafkaJS user! - ${new Date().toISOString()}` },
+      ],
+    });
+    console.log(
+      `Message sent Hello KafkaJS user! - ${new Date().toISOString()}`
+    );
+  }, 5000);
+  process.on("SIGINT", async () => {
+    await producer.disconnect();
+    console.log("Producer disconnected");
+    process.exit(0);
   });
-  console.log("Messages sent successfully");
-  await producer.disconnect();
 };
 
-sendMessage();
+runProducer();
