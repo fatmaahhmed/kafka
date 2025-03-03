@@ -6,7 +6,7 @@ const producer = kafka.producer();
 const sendMessage = async () => {
   await producer.connect();
   await producer.send({
-    topic: "test-topic",
+    topic: "notifications",
     messages: [
       { value: "Hello KafkaJS user!" },
       { value: "Hello again!" },
