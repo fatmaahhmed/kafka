@@ -193,7 +193,10 @@ function sendMessage(notification, retryCount = 0) {
 
 async function consumeMessages() {
   console.log("🚀 Connecting to Kafka broker...");
-  await consumer.connect();
+  await consumer.connect().catch((err) => {
+    console.error("❌ Error connecting to Kafka:", err);
+    process.exit(1);
+  });
   console.log("✅ Connected to Kafka");
   await consumer.subscribe({ topic: "notifications", fromBeginning: false });
 
