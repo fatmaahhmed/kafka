@@ -93,6 +93,24 @@ graph LR
 }
 ```
 
+### Docker Setup
+
+1. Build and run using Docker Compose:
+
+```sh
+docker-compose up --build
+```
+
+2. Or using Docker directly:
+
+```sh
+# Build the image
+docker build -t kafka-notification-service .
+
+# Run the container
+docker run -p 8083:8083 kafka-notification-service
+```
+
 ## Acknowledgements
 
 - [KafkaJS](https://kafka.js.org/)

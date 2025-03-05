@@ -50,7 +50,7 @@ const kafka = new Kafka({
 });
 const consumer = kafka.consumer({ groupId: "notification-group" });
 
-const wss = new WebSocket.Server({ port: 8080 });
+const wss = new WebSocket.Server({ port: 8083 });
 
 const clients = new Map(); // Map<userId, WebSocket>
 const pendingMessages = new Map(); // Map<notificationId, Timeout>
@@ -103,10 +103,9 @@ async function sendPendingNotifications(userId, ws) {
 }
 
 wss.on("connection", (ws, req) => {
-  const url = new URL(`http://localhost${req.url}`);
-  console.log("req.url", req.url);
-  // console.log("url", url);
-  const userId = url.searchParams.get("userId");
+  const parameters = new URLSearchParams(req.url.split("?")[1]);
+  const userId = parameters.get("userId");
+  console.log("userId", userId);
 
   if (!userId) {
     console.log("❌ User ID not provided. Closing connection");
@@ -151,7 +150,7 @@ wss.on("connection", (ws, req) => {
     clients.delete(userId);
   });
 });
-console.log("WebSocket server started on port 8080");
+console.log("WebSocket server started on port 8083");
 // function to send notification
 function sendMessage(notification, retryCount = 0) {
   //clients=Map<userId, WebSocket>
@@ -214,4 +213,4 @@ async function consumeMessages() {
 }
 
 consumeMessages().catch(console.error);
-console.log("🚀 WebSocket Server running on port 8080.");
+console.log("🚀 WebSocket Server running on port 8083.");
