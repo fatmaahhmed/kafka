@@ -194,6 +194,7 @@ function sendMessage(notification, retryCount = 0) {
 async function consumeMessages() {
   console.log("🚀 Connecting to Kafka broker...");
   await consumer.connect();
+  console.log("✅ Connected to Kafka");
   await consumer.subscribe({ topic: "notifications", fromBeginning: false });
 
   await consumer.run({
