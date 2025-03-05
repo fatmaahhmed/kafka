@@ -1,30 +1,100 @@
-# kafka
+# Kafka Notification Service
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Build Status](https://github.com/apache/kafka/workflows/Build/badge.svg)](https://github.com/apache/kafka/actions)
+This project demonstrates a Kafka-based notification service with WebSocket integration. It includes a producer for sending notifications and a consumer for delivering them to connected WebSocket clients.
 
-Apache Kafka is a distributed streaming platform designed to build real-time data pipelines and streaming applications. It is horizontally scalable, fault-tolerant, fast, and runs in production in thousands of companies.
+# System Flow
 
-## Key Features
+```mermaid
+graph LR
+    A[Producer] -->|Sends notification| B[Kafka Topic]
+    B -->|Consumes messages| C[Consumer]
+    C -->|Checks client status| D{Client Online?}
+    D -->|Yes| E[WebSocket]
+    D -->|No| F[MongoDB]
+    E -->|Delivers| G[Client]
+    F -.->|Delivers on reconnect| G
+```
 
-- Publish and subscribe to streams of records
-- Store streams of records durably
-- Process streams of records as they occur
-- Distribute data between multiple nodes for reliability
+### Flow Description
 
-## Getting Started
+1. **Producer**
 
-1. Download Kafka
-2. Start the server
-3. Create a topic
-4. Start producing and consuming messages
+   - Generates notifications with unique IDs
+   - Sends notifications to Kafka topic 'notifications'
 
-For detailed documentation, visit [Apache Kafka website](https://kafka.apache.org/). -->
+2. **Consumer**
 
-<!-- to show all topics -->
+   - Listens to Kafka topic continuously
+   - Manages WebSocket connections
+   - Handles notification delivery logic
 
-docker exec -it <container_id> kafka-topics --list --bootstrap-server localhost:9092
+3. **Delivery Flow**
+   - If client is online: Sends directly via WebSocket
+   - If client is offline: Stores in MongoDB
+   - On client reconnection: Delivers pending notifications
 
-docker exec -it <container_id> kafka-console-consumer --bootstrap-server localhost:9092 --topic test-topic --from-beginning
+## Prerequisites
 
-<!--  -->
+- Node.js
+- Kafka
+- MongoDB
+
+## Setup
+
+1. Clone the repository:
+
+   ```sh
+   git clone <repository-url>
+   cd kafka
+   ```
+
+2. Install dependencies:
+
+   ```sh
+   npm install
+   ```
+
+3. Configure Kafka and MongoDB:
+   - Update the Kafka broker address in `producer.js` and `consumer.js`.
+   - Update the MongoDB connection string in `consumer.js`.
+
+## Running the Service
+
+1. Start the Kafka broker and create the `notifications` topic.
+
+2. Start the Kafka producer:
+
+   ```sh
+   node producer.js
+   ```
+
+3. Start the Kafka consumer and WebSocket server:
+
+   ```sh
+   node consumer.js
+   ```
+
+4. Open the `test.html` file in a web browser to connect to the WebSocket server and receive notifications.
+
+## Usage
+
+- The producer sends notifications to the Kafka topic.
+- The consumer listens for notifications and delivers them to connected WebSocket clients.
+- If a client is offline, notifications are saved in MongoDB and delivered when the client reconnects.
+
+## Example Notification
+
+```json
+{
+  "id": "notif-001",
+  "userId": "user1",
+  "message": "This is a test notification",
+  "timestamp": "2023-10-01T12:00:00Z"
+}
+```
+
+## Acknowledgements
+
+- [KafkaJS](https://kafka.js.org/)
+- [ws](https://github.com/websockets/ws)
+- [Mongoose](https://mongoosejs.com/)
