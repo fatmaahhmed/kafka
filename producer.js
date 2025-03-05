@@ -1,28 +1,31 @@
-// producer.js
+// notificationService.js
 const { Kafka } = require("kafkajs");
 
-const kafka = new Kafka({ clientId: "test-app", brokers: ["localhost:9092"] });
+const kafka = new Kafka({
+  clientId: "notification-service",
+  brokers: ["34.47.244.129:9092"],
+});
 const producer = kafka.producer();
 
-const runProducer = async () => {
+async function connectProducer() {
   await producer.connect();
+  console.log("✅ Kafka Producer Connected");
+}
 
-  setInterval(async () => {
+async function sendNotification(notification) {
+  // Example notification: { id, userId, message, timestamp }
+  try {
     await producer.send({
       topic: "notifications",
       messages: [
-        { value: `Hello KafkaJS user! - ${new Date().toISOString()}` },
+        { key: notification.userId, value: JSON.stringify(notification) },
       ],
     });
-    console.log(
-      `Message sent Hello KafkaJS user! - ${new Date().toISOString()}`
-    );
-  }, 5000);
-  process.on("SIGINT", async () => {
-    await producer.disconnect();
-    console.log("Producer disconnected");
-    process.exit(0);
-  });
-};
+    console.log(`📩 Notification sent for user ${notification.userId}`);
+  } catch (err) {
+    console.error("Error sending notification:", err);
+  }
+}
+// sendnotificationExample.js
 
-runProducer();
+module.exports = { connectProducer, sendNotification };
