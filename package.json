@@ -9,6 +9,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "express": "^4.21.2",
     "kafkajs": "^2.2.4",
     "mongoose": "^8.12.1",
     "redis": "^4.7.0",

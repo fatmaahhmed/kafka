@@ -111,6 +111,20 @@ docker build -t kafka-notification-service .
 docker run -p 8083:8083 kafka-notification-service
 ```
 
+# kafka
+
+# Create a topic
+
+docker exec kafka kafka-topics --create --topic test-topic --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1
+
+# Produce a message
+
+docker exec -it kafka kafka-console-producer --topic test-topic --bootstrap-server localhost:9092
+
+# In a separate terminal, consume messages
+
+docker exec -it kafka kafka-console-consumer --topic test-topic --from-beginning --bootstrap-server localhost:9092
+
 ## Acknowledgements
 
 - [KafkaJS](https://kafka.js.org/)

@@ -8,8 +8,8 @@
 <body>
   <h1>WebSocket Notification Client</h1>
   <script>
-    // Connect to WebSocket server (adjust userId as needed)
-    const ws = new WebSocket('ws://dev.eyego.ai/notication?userId=user1');
+    // console.log(location)
+    const ws =new WebSocket('wss://dev.eyego.ai/notifications?userId=6772d9ebb99a4a0012339769')
 
     ws.onopen = () => {
       console.log('✅ WebSocket connection established');

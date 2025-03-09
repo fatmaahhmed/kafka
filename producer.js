@@ -1,9 +1,9 @@
-// notificationService.js
 const { Kafka } = require("kafkajs");
 
 const kafka = new Kafka({
   clientId: "notification-service",
   brokers: ["34.47.244.129:9092"],
+  // brokers: ["localhost:9092"],
 });
 const producer = kafka.producer();
 
@@ -13,15 +13,16 @@ async function connectProducer() {
 }
 
 async function sendNotification(notification) {
-  // Example notification: { id, userId, message, timestamp }
+  // Example notification: { user_id,type,content }
   try {
+    console.log(`📤 Sending notification for user ${notification.user_id}`);
     await producer.send({
       topic: "notifications",
       messages: [
-        { key: notification.userId, value: JSON.stringify(notification) },
+        { key: notification.user_id, value: JSON.stringify(notification) },
       ],
     });
-    console.log(`📩 Notification sent for user ${notification.userId}`);
+    console.log(`📩 Notification sent for user ${notification.user_id}`);
   } catch (err) {
     console.error("Error sending notification:", err);
   }

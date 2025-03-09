@@ -1,0 +1,40 @@
+const mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
+
+const db = {};
+
+db.mongoose = mongoose;
+
+db.user = require("./user.model");
+db.role = require("./role.model");
+db.refreshToken = require("./refreshToken.model");
+db.store = require("./store.model");
+db.section = require("./section.model");
+db.camera = require("./camera.model");
+db.table = require("./table.model");
+db.customer = require("./customer.model");
+db.visit = require("./visit.model");
+db.chat = require("./chat.model");
+db.feature = require("./feature.model");
+db.pdf = require("./pdf.model");
+db.log = require("./Log");
+db.view = require("./view.model");
+db.tenant = require("./tenant.model");
+db.employee = require("./employee.model");
+db.floor = require("./floor.model");
+db.plan = require("./plan.model");
+db.nasehConfig = require("./nasehConfig.model");
+db.areaCount = require("./areaCount.model");
+db.peopleCount = require("./peopleCount.model");
+db.crowdConfig = require("./crowdConfig.model");
+db.heatmap = require("./heatmap.model");
+db.edge = require("./edge.model");
+db.order = require("./orders.model");
+db.ROLES = ["employee", "admin", "manager", "moderator", "user"];
+db.support = require("./support.model");
+db.emergency = require("./emergency.model");
+db.attendancearea = require("./attendanceArea.model.js");
+db.sensorData = require("./SensorData.model.js");
+db.assistant = require("./assistant.model");
+db.assistantProvider = require("./assistantProvider.model.js");
+module.exports = db;
