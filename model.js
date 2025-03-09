@@ -7,11 +7,11 @@ mongoose
   )
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
-const Notifications = new mongoose.Schema({
+const notification = new mongoose.Schema({
   user_id: {
-    // type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     // ref: "User",
-    type: String,
+    // type: String,
     required: true,
   },
   type: {
@@ -36,5 +36,5 @@ const Notifications = new mongoose.Schema({
     default: false,
   },
 });
-const Notification = mongoose.model("Notificatios", Notifications);
+const Notification = mongoose.model("Notification", notification);
 exports.Notification = Notification;
