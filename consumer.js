@@ -258,7 +258,7 @@ async function initializeKafkaConsumer() {
         try {
           const notification = JSON.parse(message.value.toString());
           console.log(
-            `Received notification from Kafka for user ${notification.user_id} Content: ${notification}
+            `Received notification from Kafka for user ${notification.user_id} Content: ${notification.content} 📩
             `
           );
 
