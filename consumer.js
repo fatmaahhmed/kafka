@@ -206,7 +206,7 @@ function handleClientMessage(userId, message, ws) {
   try {
     const data = JSON.parse(message);
     console.log(
-      `Received message from user ${userId}: ${JSON.stringify(data)} 📥`
+      `Received message from user ${userId}: ${JSON.stringify(data)} 📥 `
     );
 
     // Handle acknowledgement
@@ -258,7 +258,8 @@ async function initializeKafkaConsumer() {
         try {
           const notification = JSON.parse(message.value.toString());
           console.log(
-            `Received notification from Kafka for user ${notification.user_id} 📩`
+            `Received notification from Kafka for user ${notification.user_id} Content: ${notification}
+            `
           );
 
           // Ensure notification has an ID
