@@ -1,9 +1,12 @@
 // sendNotificationExample.js
+const { mongo } = require("mongoose");
 const { connectProducer, sendNotification } = require("./producer.js");
 (async () => {
   await connectProducer();
   const notification = {
-    user_id: "677c030ae0b82300134b295e",
+    // convert to mongoDB ObjectId
+    user_id: mongo.ObjectId("677c030ae0b82300134b295e"),
+    // user_id: "677c030ae0b82300134b295e",
     // user_id: "1",
     type: "Naseh",
     content: "HI How are you 46",
