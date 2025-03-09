@@ -5,7 +5,7 @@ const { connectProducer, sendNotification } = require("./producer.js");
   const notification = {
     user_id: "6772d9ebb99a4a0012339769",
     type: "Naseh",
-    content: "HI How are you",
+    content: "HI How are you 2",
   };
   // check if consumer take message or not
   await sendNotification(notification);

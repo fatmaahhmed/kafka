@@ -95,7 +95,7 @@ wss.on("connection", (ws, req) => {
   // send pending notifications
   sendPendingNotifications(user_id, ws).catch(console.error);
 
-  ws.on("content", (content) => {
+  ws.on("message", (content) => {
     try {
       console.log(`📥 Received content from user ${user_id}: ${content}`);
       const data = JSON.parse(content);
