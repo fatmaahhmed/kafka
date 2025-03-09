@@ -117,6 +117,11 @@ wss.on("connection", (ws, req) => {
           console.log(
             `✅ ACK received for content ${data.contentId} from user ${user_id}`
           );
+          // then save the notification
+          console.log("content.sent", data.sent);
+          data.sent = true;
+          console.log("content.sent", data.sent);
+          saveNotification(data);
         }
       }
     } catch (err) {
