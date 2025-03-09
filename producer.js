@@ -13,7 +13,6 @@ async function connectProducer() {
 }
 
 async function sendNotification(notification) {
-  // Example notification: { user_id,type,content }
   try {
     console.log(`📤 Sending notification for user ${notification.user_id}`);
     await producer.send({
@@ -27,6 +26,5 @@ async function sendNotification(notification) {
     console.error("Error sending notification:", err);
   }
 }
-// sendnotificationExample.js
 
 module.exports = { connectProducer, sendNotification };
