@@ -29,6 +29,8 @@ const RETRY_INTERVAL = 5000;
 //function to save notification when user is offline or connection is lost
 async function saveNotification(notification) {
   try {
+    // remove the _id field
+    delete notification._id;
     console.log("saveNotification is called......");
     // find the user
     // const user = await User.findById(notification.user_id);
