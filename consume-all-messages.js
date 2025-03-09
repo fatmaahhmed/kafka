@@ -2,8 +2,8 @@ const { Kafka } = require("kafkajs");
 
 const kafka = new Kafka({
   clientId: "supermarket-app",
-  brokers: ["34.47.244.129:9092"],
-  // brokers: ["localhost:9092"],
+  // brokers: ["34.47.244.129:9092"],
+  brokers: ["localhost:9092"],
 });
 
 const consumer = kafka.consumer({ groupId: "show-all-messages-group" });
