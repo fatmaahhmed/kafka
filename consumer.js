@@ -89,7 +89,7 @@ wss.on("connection", (ws, req) => {
   }
   clients.set(user_id, ws);
   // shown number of clients connected
-  console.log("clients.size", clients.size);
+  console.log("✅clients.size", clients.size);
   // console.log("clients", clients);
   console.log(`✅ User ${user_id} connected.`);
   // send pending notifications
@@ -155,21 +155,21 @@ function sendcontent(notification, retryCount = 0) {
   const timeout = setTimeout(() => {
     if (retryCount < MAX_RETRIES) {
       console.log(
-        `🔄 No ACK for content ${notification.id}. Retrying (Attempt ${
+        `🔄 No ACK for content ${notification._id}. Retrying (Attempt ${
           retryCount + 1
         })...`
       );
       sendcontent(notification, retryCount + 1);
     } else {
       console.log(
-        `❌ Failed to deliver content ${notification.id} to user ${notification.user_id} after ${MAX_RETRIES} attempts.`
+        `❌ Failed to deliver content ${notification._id} to user ${notification.user_id} after ${MAX_RETRIES} attempts.`
       );
       console.log("...notification", notification);
       saveNotification(notification);
     }
   }, RETRY_INTERVAL);
 
-  pendingcontents.set(notification.id, timeout);
+  pendingcontents.set(notification._id, timeout);
 }
 
 async function consumeContents() {
@@ -188,7 +188,8 @@ async function consumeContents() {
         console.log(
           `📩 Received notification for user ${notification.user_id}: "${notification.content}"`
         );
-        notification.id = notification.id || message.offset;
+        // set the notification id to the offset
+        notification._id = notification._id || message.offset;
         sendcontent(notification);
       } catch (err) {
         console.error("Error processing Kafka message:", err);
