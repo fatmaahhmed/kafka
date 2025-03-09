@@ -7,7 +7,7 @@ const {
   findAllnotications,
   insertInitialNotifications,
 } = require("./findNotfication");
-
+const { pendingNotification } = require("./pending.model");
 // findAllnotications();
 // insertInitialNotifications();
 
@@ -37,7 +37,7 @@ async function saveNotification(notification) {
     // console.log("user", user);
     console.log("notification", notification);
     // save the notification
-    await Notification.create(notification).then((data) => {
+    await pendingNotification.create(notification).then((data) => {
       console.log("data", data);
     });
   } catch (err) {
@@ -49,7 +49,7 @@ async function sendPendingNotifications(user_id, ws) {
   try {
     // let notifications = await Notification.find();
     // console.log("notifications len", notifications.length);
-    const userNotifications = await Notification.find({
+    const userNotifications = await pendingNotification.find({
       // user_id: new mongoose.Types.ObjectId(user_id),
       user_id: user_id,
     });
@@ -60,20 +60,14 @@ async function sendPendingNotifications(user_id, ws) {
     }
 
     for (const notification of userNotifications) {
-      if (notification.sent == false) {
-        console.log("notification", notification);
-        ws.send(JSON.stringify(notification));
-        console.log(
-          `📤 Sent pending notification to user ${user_id}: "${notification.content}"`
-        );
-      }
+      ws.send(JSON.stringify(notification));
+      console.log(
+        `📤 Sent pending notification to user ${user_id}: "${notification}"`
+      );
     }
-    // update the notifications sent to yes
-    await Notification.updateMany(
-      // { user_id: new mongoose.Types.ObjectId(user_id) },
-      { user_id: user_id },
-      { $set: { sent: true } }
-    );
+    // delete the pending notifications
+    await pendingNotification.deleteMany({ user_id });
+    console.log(`🗑️ Deleted pending notifications for user ${user_id}.`);
   } catch (err) {
     console.error(err);
   }

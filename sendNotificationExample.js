@@ -5,11 +5,10 @@ const { connectProducer, sendNotification } = require("./producer.js");
   await connectProducer();
   const notification = {
     // convert to mongoDB ObjectId
-    user_id: mongo.ObjectId("677c030ae0b82300134b295e"),
-    // user_id: "677c030ae0b82300134b295e",
-    // user_id: "1",
+    // user_id: mongo.ObjectId("677c030ae0b82300134b295e"),
+    user_id: "677c030ae0b82300134b295e",
     type: "Naseh",
-    content: "HI How are you 46",
+    content: "HI HI HI HI HI 444434343",
     createdAt: Math.abs(Date.now()),
   };
 
