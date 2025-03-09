@@ -32,16 +32,16 @@ async function saveNotification(notification) {
     const cleanNotification = { ...notification };
     delete cleanNotification._id;
 
-    console.log(`Saving notification for user ${cleanNotification.user_id}`);
+    console.log(`Saving notification for user ${cleanNotification.user_id} 📥`);
 
     const savedNotification = await pendingNotification.create(
       cleanNotification
     );
-    console.log(`Notification saved with ID: ${savedNotification._id}`);
+    console.log(`Notification saved with ID: ${savedNotification._id} ✅`);
 
     return savedNotification;
   } catch (error) {
-    console.error(`Failed to save notification: ${error.message}`);
+    console.error(`Failed to save notification: ${error.message} ❌`);
     throw error;
   }
 }
@@ -58,18 +58,18 @@ async function sendPendingNotifications(userId, ws) {
     });
 
     if (userNotifications.length === 0) {
-      console.log(`No pending notifications for user ${userId}`);
+      console.log(`No pending notifications for user ${userId} 📭`);
       return;
     }
 
     console.log(
-      `Sending ${userNotifications.length} pending notifications to user ${userId}`
+      `Sending ${userNotifications.length} pending notifications to user ${userId} 📤`
     );
 
     for (const notification of userNotifications) {
       ws.send(JSON.stringify(notification));
       console.log(
-        `Sent pending notification ID ${notification._id} to user ${userId}`
+        `Sent pending notification ID ${notification._id} to user ${userId} 📤`
       );
     }
 
@@ -78,10 +78,10 @@ async function sendPendingNotifications(userId, ws) {
       user_id: userId,
     });
     console.log(
-      `Deleted ${deleteResult.deletedCount} pending notifications for user ${userId}`
+      `Deleted ${deleteResult.deletedCount} pending notifications for user ${userId} 🗑️`
     );
   } catch (error) {
-    console.error(`Error sending pending notifications: ${error.message}`);
+    console.error(`Error sending pending notifications: ${error.message} ❌`);
   }
 }
 
@@ -97,10 +97,10 @@ function sendNotification(notification, retryCount = 0) {
   // Check if user is connected and socket is open
   if (!userSocket || userSocket.readyState !== WebSocket.OPEN) {
     console.log(
-      `User ${userId} is offline. Storing notification for later delivery.`
+      `User ${userId} is offline. Storing notification for later delivery. 📦`
     );
     saveNotification(notification).catch((error) =>
-      console.error(`Failed to store notification: ${error.message}`)
+      console.error(`Failed to store notification: ${error.message} ❌`)
     );
     return;
   }
@@ -114,7 +114,7 @@ function sendNotification(notification, retryCount = 0) {
     console.log(
       `Sent notification ID ${notification._id} to user ${userId} (Attempt: ${
         retryCount + 1
-      })`
+      }) 📩`
     );
 
     // Set timeout for acknowledgement
@@ -123,16 +123,16 @@ function sendNotification(notification, retryCount = 0) {
         console.log(
           `No acknowledgement for notification ${
             notification._id
-          }. Retrying (Attempt ${retryCount + 1}/${MAX_RETRIES})`
+          }. Retrying (Attempt ${retryCount + 1}/${MAX_RETRIES}) 🔄`
         );
         sendNotification(notification, retryCount + 1);
       } else {
         console.log(
-          `Failed to deliver notification ${notification._id} to user ${userId} after ${MAX_RETRIES} attempts`
+          `Failed to deliver notification ${notification._id} to user ${userId} after ${MAX_RETRIES} attempts ❌`
         );
         saveNotification(notification).catch((error) =>
           console.error(
-            `Failed to store notification after retries: ${error.message}`
+            `Failed to store notification after retries: ${error.message} ❌`
           )
         );
       }
@@ -140,10 +140,10 @@ function sendNotification(notification, retryCount = 0) {
 
     pendingAcknowledgements.set(notification._id, timeout);
   } catch (error) {
-    console.error(`Error sending notification: ${error.message}`);
+    console.error(`Error sending notification: ${error.message} ❌`);
     saveNotification(notification).catch((err) =>
       console.error(
-        `Failed to store notification after send error: ${err.message}`
+        `Failed to store notification after send error: ${err.message} ❌`
       )
     );
   }
@@ -157,7 +157,7 @@ function initializeWebSocketServer() {
 
   wss.on("connection", handleWebSocketConnection);
 
-  console.log(`WebSocket server started on port ${WS_PORT}`);
+  console.log(`WebSocket server started on port ${WS_PORT} 🚀`);
   return wss;
 }
 
@@ -172,7 +172,7 @@ function handleWebSocketConnection(ws, req) {
   const userId = parameters.get("user_id");
 
   if (!userId) {
-    console.log("Connection rejected: Missing user_id parameter");
+    console.log("Connection rejected: Missing user_id parameter ❌");
     ws.close(1003, "User ID not provided");
     return;
   }
@@ -180,19 +180,19 @@ function handleWebSocketConnection(ws, req) {
   // Register the client
   activeClients.set(userId, ws);
   console.log(
-    `User ${userId} connected (Total active connections: ${activeClients.size})`
+    `User ${userId} connected (Total active connections: ${activeClients.size}) 🟢`
   );
 
   // Send any pending notifications
   sendPendingNotifications(userId, ws).catch((error) =>
-    console.error(`Error with pending notifications: ${error.message}`)
+    console.error(`Error with pending notifications: ${error.message} ❌`)
   );
 
   // Set up event handlers
   ws.on("message", (message) => handleClientMessage(userId, message, ws));
   ws.on("close", () => handleClientDisconnect(userId));
   ws.on("error", (error) =>
-    console.error(`WebSocket error for user ${userId}: ${error.message}`)
+    console.error(`WebSocket error for user ${userId}: ${error.message} ❌`)
   );
 }
 
@@ -206,7 +206,7 @@ function handleClientMessage(userId, message, ws) {
   try {
     const data = JSON.parse(message);
     console.log(
-      `Received message from user ${userId}: ${JSON.stringify(data)}`
+      `Received message from user ${userId}: ${JSON.stringify(data)} 📥`
     );
 
     // Handle acknowledgement
@@ -217,7 +217,7 @@ function handleClientMessage(userId, message, ws) {
         clearTimeout(timeout);
         pendingAcknowledgements.delete(data.contentId);
         console.log(
-          `Acknowledgement received for notification ${data.contentId} from user ${userId}`
+          `Acknowledgement received for notification ${data.contentId} from user ${userId} ✅`
         );
       }
     }
@@ -235,7 +235,7 @@ function handleClientMessage(userId, message, ws) {
 function handleClientDisconnect(userId) {
   activeClients.delete(userId);
   console.log(
-    `User ${userId} disconnected (Remaining connections: ${activeClients.size})`
+    `User ${userId} disconnected (Remaining connections: ${activeClients.size}) 🔴`
   );
 }
 
@@ -246,35 +246,35 @@ async function initializeKafkaConsumer() {
   const consumer = kafka.consumer({ groupId: "notification-group" });
 
   try {
-    console.log("Connecting to Kafka broker...");
+    console.log("Connecting to Kafka broker... 🚪");
     await consumer.connect();
-    console.log("Connected to Kafka broker successfully");
+    console.log("Connected to Kafka broker successfully ✅");
 
     await consumer.subscribe({ topic: KAFKA_TOPIC, fromBeginning: false });
-    console.log(`Subscribed to Kafka topic: ${KAFKA_TOPIC}`);
+    console.log(`Subscribed to Kafka topic: ${KAFKA_TOPIC} 🔊`);
 
     await consumer.run({
       eachMessage: async ({ message }) => {
         try {
           const notification = JSON.parse(message.value.toString());
           console.log(
-            `Received notification from Kafka for user ${notification.user_id}`
+            `Received notification from Kafka for user ${notification.user_id} 📩`
           );
 
           // Ensure notification has an ID
-          notification._id = notification._id || `kafka-${message.offset}`;
+          notification._id = notification._id || `kafka-${message.offset} `;
 
           // Send the notification
           sendNotification(notification);
         } catch (error) {
-          console.error(`Error processing Kafka message: ${error.message}`);
+          console.error(`Error processing Kafka message: ${error.message} ❌`);
         }
       },
     });
 
     return consumer;
   } catch (error) {
-    console.error(`Kafka consumer error: ${error.message}`);
+    console.error(`Kafka consumer error: ${error.message} ❌`);
     throw error;
   }
 }
@@ -292,19 +292,19 @@ async function main() {
 
     // Setup graceful shutdown
     process.on("SIGTERM", async () => {
-      console.log("SIGTERM received. Shutting down gracefully...");
+      console.log("SIGTERM received. Shutting down gracefully... 🛑");
 
       try {
         await consumer.disconnect();
         wss.close();
         process.exit(0);
       } catch (error) {
-        console.error(`Error during shutdown: ${error.message}`);
+        console.error(`Error during shutdown: ${error.message} ❌`);
         process.exit(1);
       }
     });
   } catch (error) {
-    console.error(`Application startup failed: ${error.message}`);
+    console.error(`Application startup failed: ${error.message} ❌`);
     process.exit(1);
   }
 }
