@@ -8,7 +8,7 @@ const { connectProducer, sendNotification } = require("./producer.js");
     // user_id: mongo.ObjectId("677c030ae0b82300134b295e"),
     user_id: "677c030ae0b82300134b295e",
     type: "Naseh",
-    content: "HI HI HI HI HI 444434343",
+    content: "1",
     createdAt: Math.abs(Date.now()),
   };
 

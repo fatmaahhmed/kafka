@@ -2,8 +2,8 @@ const { Kafka } = require("kafkajs");
 
 const kafka = new Kafka({
   clientId: "notification-service",
-  // brokers: ["34.47.244.129:9092"],
-  brokers: ["localhost:9092"],
+  brokers: ["34.47.244.129:9092"],
+  // brokers: ["localhost:9092"],
 });
 const producer = kafka.producer();
 

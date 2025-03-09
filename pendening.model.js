@@ -42,5 +42,3 @@ const pendingNotification = mongoose.model(
   pendingNotfication
 );
 exports.pendingNotification = pendingNotification;
-// export Notification model
-// const Notification = mongoose.model("Notification", notification);

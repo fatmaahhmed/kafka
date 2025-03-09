@@ -7,7 +7,7 @@ const {
   findAllnotications,
   insertInitialNotifications,
 } = require("./findNotfication");
-const { pendingNotification } = require("./pending.model");
+const { pendingNotification } = require("./pendening.model");
 // findAllnotications();
 // insertInitialNotifications();
 
