@@ -35,6 +35,8 @@ async function saveNotification(notification) {
     // find the user
     // const user = await User.findById(notification.user_id);
     // console.log("user", user);
+    // convert the user_id to ObjectId
+    // notification.user_id = new mongoose.Types.ObjectId(notification.user_id);
     console.log("notification", notification);
     // save the notification
     await Notification.create(notification).then((data) => {

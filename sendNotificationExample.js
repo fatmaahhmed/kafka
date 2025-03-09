@@ -6,7 +6,7 @@ const { connectProducer, sendNotification } = require("./producer.js");
     user_id: "677464551337f90012aa40f7",
     // user_id: "1",
     type: "Naseh",
-    content: "HI How are you 31",
+    content: "HI How are you 35",
     createdAt: Math.abs(Date.now()),
   };
 
