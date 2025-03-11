@@ -57,6 +57,7 @@ async function sendPendingNotifications(userId, ws) {
       user_id: userId,
     });
     console.log("userNotifications.length...", userNotifications.length);
+    length = userNotifications.length;
 
     if (userNotifications.length === 0) {
       console.log(`No pending notifications for user ${userId} 📭`);
@@ -69,7 +70,7 @@ async function sendPendingNotifications(userId, ws) {
 
     for (const notification of userNotifications) {
       // add length of notification to the notification object
-      notification.length = userNotifications ? userNotifications.length : 0;
+      notification.length = length;
 
       console.log("notification from pending...", notification);
       ws.send(JSON.stringify(notification));
