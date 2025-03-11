@@ -56,6 +56,7 @@ async function sendPendingNotifications(userId, ws) {
     const userNotifications = await pendingNotification.find({
       user_id: userId,
     });
+    console.log("userNotifications.length...", userNotifications.length);
 
     if (userNotifications.length === 0) {
       console.log(`No pending notifications for user ${userId} 📭`);
@@ -67,6 +68,7 @@ async function sendPendingNotifications(userId, ws) {
     );
 
     for (const notification of userNotifications) {
+      notification.length = userNotifications.length;
       ws.send(JSON.stringify(notification));
       console.log(
         `Sent pending notification ID ${notification._id} to user ${userId} 📤`
