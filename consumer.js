@@ -271,7 +271,7 @@ async function initializeKafkaConsumer() {
           );
 
           // Ensure notification has an ID
-          notification._id = notification._id || `kafka-${message.offset} `;
+          notification._id = `kafka-${message.partition}-${message.offset}`;
 
           // Send the notification
           sendNotification(notification);

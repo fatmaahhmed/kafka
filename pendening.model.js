@@ -8,6 +8,9 @@ mongoose
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 const pendingNotfication = new mongoose.Schema({
+  _id: {
+    type: String,
+  },
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     // ref: "User",
