@@ -30,7 +30,7 @@ async function saveNotification(notification) {
   try {
     // Remove the _id field if it exists
     const cleanNotification = { ...notification };
-    delete cleanNotification._id;
+    // delete cleanNotification._id;
 
     console.log(`Saving notification for user ${cleanNotification.user_id} 📥`);
 
