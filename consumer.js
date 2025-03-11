@@ -68,7 +68,9 @@ async function sendPendingNotifications(userId, ws) {
     );
 
     for (const notification of userNotifications) {
-      notification.length = userNotifications.length;
+      // add length of notification to the notification object
+      notification.length = userNotifications ? userNotifications.length : 0;
+
       console.log("notification from pending...", notification);
       ws.send(JSON.stringify(notification));
       console.log(
