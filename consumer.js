@@ -60,6 +60,7 @@ async function sendPendingNotifications(userId, ws) {
     length = userNotifications.length;
 
     if (userNotifications.length === 0) {
+      ws.send(JSON.stringify({ length: 0 }));
       console.log(`No pending notifications for user ${userId} 📭`);
       return;
     }
