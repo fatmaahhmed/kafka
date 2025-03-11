@@ -69,6 +69,7 @@ async function sendPendingNotifications(userId, ws) {
 
     for (const notification of userNotifications) {
       notification.length = userNotifications.length;
+      console.log("notification from pending...", notification);
       ws.send(JSON.stringify(notification));
       console.log(
         `Sent pending notification ID ${notification._id} to user ${userId} 📤`
