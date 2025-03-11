@@ -71,7 +71,7 @@ async function sendPendingNotifications(userId, ws) {
     for (const notification of userNotifications) {
       const notificationObj = notification.toObject();
       notificationObj.length = userNotifications.length;
-      console.log("notification from pending...", notificationObj);
+      // console.log("notification from pending...", notificationObj);
       ws.send(JSON.stringify(notificationObj));
       console.log(
         `Sent pending notification ID ${notificationObj._id} to user ${userId} 📤`
@@ -248,7 +248,10 @@ function handleClientDisconnect(userId) {
  * Initialize and run Kafka consumer
  */
 async function initializeKafkaConsumer() {
-  const consumer = kafka.consumer({ groupId: "notification-group" });
+  const consumer = kafka.consumer({
+    groupId: "notification-group",
+    sessionTimeout: 30000,
+  });
 
   try {
     console.log("Connecting to Kafka broker... 🚪");
