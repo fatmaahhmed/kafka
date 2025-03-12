@@ -56,7 +56,7 @@ async function sendPendingNotifications(userId, ws) {
       .find({
         user_id: userId,
       })
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: 1 });
     console.log("userNotifications.length...", userNotifications.length);
     length = userNotifications.length;
 
