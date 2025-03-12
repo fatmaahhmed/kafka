@@ -52,9 +52,11 @@ async function saveNotification(notification) {
  */
 async function sendPendingNotifications(userId, ws) {
   try {
-    const userNotifications = await pendingNotification.find({
-      user_id: userId,
-    });
+    const userNotifications = await pendingNotification
+      .find({
+        user_id: userId,
+      })
+      .sort({ createdAt: -1 });
     console.log("userNotifications.length...", userNotifications.length);
     length = userNotifications.length;
 
