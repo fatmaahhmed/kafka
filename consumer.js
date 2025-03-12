@@ -1,9 +1,8 @@
 const WebSocket = require("ws");
 const { Kafka } = require("kafkajs");
 const mongoose = require("mongoose");
-const { Notification } = require("./model");
-const User = require("./user.model");
-const { pendingNotification } = require("./pendening.model");
+const { Notification } = require("./models/model");
+const { pendingNotification } = require("./models/pendening.model");
 
 // Constants
 const WS_PORT = 8083;

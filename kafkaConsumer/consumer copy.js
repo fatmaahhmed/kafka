@@ -1,13 +1,13 @@
 const WebSocket = require("ws");
 const { Kafka } = require("kafkajs");
 const mongoose = require("mongoose");
-const { Notification } = require("./model");
-const User = require("./user.model");
+const { Notification } = require("../models/model");
+const User = require("../user.model");
 const {
   findAllnotications,
   insertInitialNotifications,
-} = require("./findNotfication");
-const { pendingNotification } = require("./pendening.model");
+} = require("../notfication/findNotfication");
+const { pendingNotification } = require("../models/pendening.model");
 // findAllnotications();
 // insertInitialNotifications();
 

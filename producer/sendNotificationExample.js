@@ -9,7 +9,7 @@ const { connectProducer, sendNotification } = require("./producer.js");
     user_id: "6772d9ebb99a4a0012339769",
     // user_id: "6772d9ebb99a4a0012339769",
     type: "Naseh",
-    content: "999nd notification",
+    content: "4",
     createdAt: Math.abs(Date.now()),
   };
 

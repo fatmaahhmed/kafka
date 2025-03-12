@@ -1,4 +1,4 @@
-const { Notification } = require("./model");
+const { Notification } = require("../models/model");
 
 const findAllnotications = async () => {
   try {
