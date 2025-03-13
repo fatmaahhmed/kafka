@@ -14,17 +14,22 @@ async function connectProducer() {
 
 async function sendNotification(notification) {
   // Example notification: { user_id,type,content }
-  try {
-    console.log(`📤 Sending notification for user ${notification.user_id}`);
-    await producer.send({
-      topic: "notifications",
-      messages: [
-        { key: notification.user_id, value: JSON.stringify(notification) },
-      ],
-    });
-    console.log(`📩 Notification sent for user ${notification.user_id}`);
-  } catch (err) {
-    console.error("Error sending notification:", err);
+  const { user_id, ...rest } = notification;
+  const notfications = user_id.map((id) => ({
+    user_id: id,
+    ...rest,
+  }));
+  for (const notif of notfications) {
+    try {
+      console.log(`📤 Sending notification for user ${notif.user_id}`);
+      await producer.send({
+        topic: "notifications",
+        messages: [{ key: notif.user_id, value: JSON.stringify(notif) }],
+      });
+      console.log(`📩 Notification sent for user ${notif.user_id}`);
+    } catch (err) {
+      console.error("Error sending notification:", err);
+    }
   }
 }
 // sendnotificationExample.js

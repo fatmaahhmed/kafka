@@ -4,12 +4,9 @@ const { connectProducer, sendNotification } = require("./producer.js");
 (async () => {
   await connectProducer();
   const notification = {
-    // convert to mongoDB ObjectId
-    // user_id: mongo.ObjectId("677c030ae0b82300134b295e"),
-    user_id: "6772d9ebb99a4a0012339769",
-    // user_id: "6772d9ebb99a4a0012339769",
+    user_id: ["6772d9ebb99a4a0012339769", "67bc570d92aa0370e91cf27a"],
     type: "Naseh",
-    content: "Hello from Kafka 🚀 4",
+    content: "Hello from Kafka1 🚀 ",
   };
 
   // check if consumer take message or not
