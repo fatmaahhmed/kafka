@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 // Connect to MongoDB
 mongoose
   .connect(
-    "mongodb://eyego-client:ZXllZ28tY2xpZW50QGV5ZWdvLmFp@34.18.0.208:27017,34.18.87.101:27017/eyego?authMechanism=DEFAULT&authSource=admin&replicaSet=rs0"
+    "mongodb+srv://tariqeyego:K0tn94fPWbB3XWKR@eyego.6gk2cxc.mongodb.net/eyego?retryWrites=true&w=majority&appName=eyego"
   )
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
