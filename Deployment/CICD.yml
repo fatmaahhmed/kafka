@@ -10,13 +10,13 @@ steps:
   args:
   - build
   - -t
-  - 'gcr.io/eyego-mvp/notfication:$SHORT_SHA'
+  - 'gcr.io/eyego-mvp/notfication_system_system:$SHORT_SHA'
   - .
   id: Build Docker Image
 - name: gcr.io/cloud-builders/docker
   args:
   - push
-  - 'gcr.io/eyego-mvp/notfication:$SHORT_SHA'
+  - 'gcr.io/eyego-mvp/notfication_system_system_system:$SHORT_SHA'
   id: Push Docker Image
 - name: gcr.io/cloud-builders/gcloud
   args:
@@ -44,8 +44,8 @@ steps:
       sudo gcloud auth configure-docker gcr.io -q
       echo 'Docker authenticated with GCR.'
       
-      sudo docker pull gcr.io/eyego-mvp/notfication:$SHORT_SHA
-      sudo docker tag gcr.io/eyego-mvp/notfication:$SHORT_SHA gcr.io/eyego-mvp/notfication:latest
+      sudo docker pull gcr.io/eyego-mvp/notfication_system_system_system:$SHORT_SHA
+      sudo docker tag gcr.io/eyego-mvp/notfication_system_system_system:$SHORT_SHA gcr.io/eyego-mvp/notfication_system_system_system:latest
       echo 'Docker image pulled and tagged successfully.'
       
       echo 'Stopping containers...'
@@ -55,7 +55,7 @@ steps:
       echo 'Containers started successfully.'
       
       echo 'Cleaning up old images...'
-      sudo docker images 'gcr.io/eyego-mvp/notfication' --format '{{.ID}} {{.CreatedAt}}' | 
+      sudo docker images 'gcr.io/eyego-mvp/notfication_system_system' --format '{{.ID}} {{.CreatedAt}}' | 
       sort -k 2 -r | 
       awk 'NR>1 {print $1}' | 
       xargs -r sudo docker rmi

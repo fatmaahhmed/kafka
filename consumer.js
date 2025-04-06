@@ -228,6 +228,8 @@ function handleClientMessage(userId, message, ws) {
         );
       }
     }
+
+    
   } catch (error) {
     console.error(
       `Error parsing message from user ${userId}: ${error.message}`
