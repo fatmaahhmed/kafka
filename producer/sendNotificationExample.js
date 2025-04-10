@@ -5,8 +5,8 @@ const { connectProducer, sendNotification } = require("./producer.js");
   await connectProducer();
   const notification = {
     user_id: ["6772d9ebb99a4a0012339769", "67bc570d92aa0370e91cf27a"],
-    type: "Naseh",
-    content: "Hello 🚀🚀🚀🚀🚀🚀11111 ",
+    type: "Mobser",
+    content: "Hello from Kafka System 🚀 ",
   };
 
   // check if consumer take message or not
