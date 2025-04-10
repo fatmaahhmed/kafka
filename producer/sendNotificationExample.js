@@ -9,7 +9,7 @@ const { connectProducer, sendNotification } = require("./producer.js");
     content: "Hello from Kafka System 🚀 ",
   };
 
-  // check if consumer take message or not
+  // check if consumer take message or nott
   await sendNotification(notification);
   process.exit(0);
 })();
