@@ -3,7 +3,6 @@
 This project demonstrates a Kafka-based notification service with WebSocket integration. It includes a producer for sending notifications and a consumer for delivering them to connected WebSocket clients.
 
 # System Flow
-
 ```mermaid
 graph LR
     A[Producer] -->|Sends notification| B[Kafka Topic]
