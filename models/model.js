@@ -6,7 +6,7 @@ mongoose
   .connect(
     "mongodb+srv://tariqeyego:K0tn94fPWbB3XWKR@eyego.6gk2cxc.mongodb.net/eyego?retryWrites=true&w=majority&appName=eyego"
   )
-  .then(() => console.log("✅ Connected to MongoDB"))
+  .then(() => console.log("✅ Connected to MongoDB from model.js"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 const notification = new mongoose.Schema({
   _id: {

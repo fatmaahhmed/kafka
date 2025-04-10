@@ -3,20 +3,20 @@ steps:
   args:
   - '-c'
   - >
-    echo "DB_DEVELOPMENT_URL=mongodb+srv://tariqeyego:K0tn94fPWbB3XWKR@eyego.6gk2cxc.mongodb.net/eyego?retryWrites=true&w=majority&appName=eyego">> .env echo NODE_ENV=development >> .env
+    echo "DB_DEVELOPMENT_URL=mongodb+srv://tariqeyego:K0tn94fPWbB3XWKR@eyego.6gk2cxc.mongodb.net/?retryWrites=true&w=majority&appName=eyego">> .env echo NODE_ENV=development >> .env
   id: Update ENV File
   entrypoint: bash
 - name: gcr.io/cloud-builders/docker
   args:
   - build
-  - -t
-  - 'gcr.io/eyego-mvp/notfication_system_system:$SHORT_SHA'
+  - '-t'
+  - 'gcr.io/eyego-mvp/notification-system:$SHORT_SHA'
   - .
   id: Build Docker Image
 - name: gcr.io/cloud-builders/docker
   args:
   - push
-  - 'gcr.io/eyego-mvp/notfication_system_system_system:$SHORT_SHA'
+  - 'gcr.io/eyego-mvp/notification-system:$SHORT_SHA'
   id: Push Docker Image
 - name: gcr.io/cloud-builders/gcloud
   args:
@@ -44,8 +44,8 @@ steps:
       sudo gcloud auth configure-docker gcr.io -q
       echo 'Docker authenticated with GCR.'
       
-      sudo docker pull gcr.io/eyego-mvp/notfication_system_system_system:$SHORT_SHA
-      sudo docker tag gcr.io/eyego-mvp/notfication_system_system_system:$SHORT_SHA gcr.io/eyego-mvp/notfication_system_system_system:latest
+      sudo docker pull gcr.io/eyego-mvp/notification-system:$SHORT_SHA
+      sudo docker tag gcr.io/eyego-mvp/notification-system:$SHORT_SHA gcr.io/eyego-mvp/notification-system:latest
       echo 'Docker image pulled and tagged successfully.'
       
       echo 'Stopping containers...'
@@ -55,7 +55,7 @@ steps:
       echo 'Containers started successfully.'
       
       echo 'Cleaning up old images...'
-      sudo docker images 'gcr.io/eyego-mvp/notfication_system_system' --format '{{.ID}} {{.CreatedAt}}' | 
+      sudo docker images 'gcr.io/eyego-mvp/notification-system' --format '{{.ID}} {{.CreatedAt}}' | 
       sort -k 2 -r | 
       awk 'NR>1 {print $1}' | 
       xargs -r sudo docker rmi
