@@ -1,10 +1,10 @@
 const e = require("express");
 const mongoose = require("mongoose");
 // Connect to MongoDB
-// mongodb+srv://tariqeyego:K0tn94fPWbB3XWKR@eyego.6gk2cxc.mongodb.net/?retryWrites=true&w=majority&appName=eyego
+// mongodb+srv:
 mongoose
   .connect(
-    "mongodb+srv://tariqeyego:K0tn94fPWbB3XWKR@eyego.6gk2cxc.mongodb.net/eyego?retryWrites=true&w=majority&appName=eyego"
+    "mongodb+srv:
   )
   .then(() => console.log("✅ Connected to MongoDB from model.js"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
