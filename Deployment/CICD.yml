@@ -3,7 +3,7 @@ steps:
   args:
   - '-c'
   - >
-    echo "DB_DEVELOPMENT_URL=mongodb+srv://tariqeyego:K0tn94fPWbB3XWKR@eyego.6gk2cxc.mongodb.net/?retryWrites=true&w=majority&appName=eyego">> .env echo NODE_ENV=development >> .env
+    echo "DB_DEVELOPMENT_URL=mongodb+srv://
   id: Update ENV File
   entrypoint: bash
 - name: gcr.io/cloud-builders/docker
